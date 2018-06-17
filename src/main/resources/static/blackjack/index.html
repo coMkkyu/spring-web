@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-    <style>
+<style>
         /* Reset */
         html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
 
@@ -402,6 +402,11 @@
             color: green;
             font-size: 21px;
         }
+        .visible{
+            border: 2px solid;
+
+        }
+
     </style>
 </head>
 <body>
@@ -417,7 +422,14 @@
         <div class="buttons"><div class="btn" id="create_room_button">Create</div></div>
     </div>
 </div>
+
 <div class="page" id="game" style="display: none">
+    <!-- 아이디와 현재보유한 금액 화면 상단에 표시 -->
+    <div id="visible">
+        <p class="player-name"></p>
+        <span id="myMoney" class="myMoney"></span>
+    </div>
+
     <div class="dealer-cards"></div>
     <div class="clear"></div>
     <div class="player-cards"></div>
@@ -481,6 +493,8 @@
                 'name':user.name
             }
         }).done(function(data) {
+            var loginName = $('#input_login_name').val();
+            $('.player-name').text(loginName);
             $('#login').hide();
             $('#lobby').hide();
             $('#game').show();
@@ -491,6 +505,7 @@
 
     $('#deal').click(function() {
         var bet = parseInt($('#bet').html());
+        if(bet<=10000){
 
         $.ajax({
             type: 'POST',
@@ -503,6 +518,8 @@
         }).done(function(data) {
             drawGameRoom(data);
         });
+        } else
+            alert("배팅금액의 상한선은 10,000원입니다");
     })
 
     $('#hit').click(function() {
@@ -530,7 +547,7 @@
     })
 
     $('#more').click(function(){
-        var bet = 100;
+        var bet = 1000;
         var currentBet = parseInt($('#bet').html());
         var money = parseInt($('#money').html());
         if (money < bet) {
@@ -539,10 +556,12 @@
 
         $('#bet').html(currentBet + bet);
         $('#money').html(money - bet);
+        $('#myMoney').html(money - bet);
+
     });
 
     $('#less').click(function(){
-        var bet = 100;
+        var bet = 1000;
         var currentBet = parseInt($('#bet').html());
         var money = parseInt($('#money').html());
         if(currentBet < bet) {
@@ -551,6 +570,8 @@
 
         $('#bet').html(currentBet - bet);
         $('#money').html(money + bet);
+        $('#myMoney').html(money + bet);
+
     });
 
     function drawGameRoom(gameRoom) {
@@ -590,6 +611,8 @@
 
         $('#bet').html(gameRoom.playerList[user.name].currentBet);
         $('#money').html(gameRoom.playerList[user.name].balance);
+        $('#myMoney').html(gameRoom.playerList[user.name].balance);
+
     }
 
     function generateCardDiv(rank, suit) {
