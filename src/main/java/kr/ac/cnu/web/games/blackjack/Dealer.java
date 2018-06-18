@@ -20,10 +20,10 @@ public class Dealer {
         hand.reset();
     }
 
-    public void deal() {
+    public void deal
+() {
         hand.drawCard();
     }
-
     public void play() {
         while(hand.getCardSum() < 17) {
             hand.drawCard();
