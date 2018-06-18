@@ -72,4 +72,9 @@ public class Player {
         this.isPlaying = false;
     }
 
+    public void doubleDown() {
+        hand.drawCard();
+        this.isPlaying = false;
+    }
+
 }
