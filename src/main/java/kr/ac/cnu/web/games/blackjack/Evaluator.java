@@ -38,7 +38,12 @@ public class Evaluator {
                 }
             }
             else if (playerResult == dealerResult) {
-                player.tie();
+                if(dealerResult == 21) { //딜러가 블랙잭인경우로 플레이어와 동일한 점수일 때는 딜러의 승리
+                    player.lost();
+                }
+                else { //블랙잭이 아니고 점수가 같을경우는 모두 tie
+                    player.tie();
+                }
             }
             else {
                 player.lost();
