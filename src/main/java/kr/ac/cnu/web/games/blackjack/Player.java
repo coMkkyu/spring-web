@@ -46,21 +46,21 @@ public class Player {
 
     public void win() {
         balance += currentBet * 2;
-        currentBet = 0;
+        this.currentBet = currentBet;
     }
 
     public void blackjack(){
         balance += currentBet * 2.5;
-        currentBet = 0;
+        this.currentBet = currentBet;
     }
 
     public void tie() {
         balance += currentBet;
-        currentBet = 0;
+        this.currentBet = currentBet;
     }
 
     public void lost() {
-        currentBet = 0;
+        this.currentBet = currentBet;
     }
 
     public Card hitCard() {
