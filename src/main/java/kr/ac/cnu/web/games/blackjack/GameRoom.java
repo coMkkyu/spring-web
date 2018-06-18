@@ -69,7 +69,7 @@ public class GameRoom {
 
         player.stand();
     }
-    
+
     public void playDealer() {
         dealer.play();
         evaluator.evaluate();
