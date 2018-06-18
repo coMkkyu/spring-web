@@ -553,6 +553,7 @@
         }).done(function(data) {
             drawGameRoom(data);
         });
+        moreless = 0;
     })
 
     $('#stand').click(function() {
@@ -575,7 +576,6 @@
             bet = money;
             alert("All-In");
         }
-
         $('#bet').html(currentBet + bet);
         $('#money').html(money - bet);
     });
@@ -587,11 +587,8 @@
         if(currentBet < bet) {
             bet = currentBet;
         }
-
         $('#bet').html(currentBet - bet);
         $('#money').html(money + bet);
-        $('#myMoney').html(money + bet);
-
     });
 
     function drawGameRoom(gameRoom) {

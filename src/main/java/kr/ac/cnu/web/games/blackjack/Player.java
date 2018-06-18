@@ -37,6 +37,7 @@ public class Player {
         currentBet = bet;
 
         isPlaying = true;
+
     }
 
     public void deal() {
@@ -46,24 +47,24 @@ public class Player {
 
     public void win() {
         balance += currentBet * 2;
-        this.currentBet = currentBet;
+        balance -= currentBet;
     }
 
-    public void blackjack(){
+    public void blackjack() {
         balance += currentBet * 2.5;
-        this.currentBet = currentBet;
+        balance -= currentBet;
     }
 
     public void tie() {
-        balance += currentBet;
-        this.currentBet = currentBet;
+
     }
 
     public void lost() {
-        this.currentBet = currentBet;
+        balance -= currentBet;
     }
 
     public Card hitCard() {
+
         return hand.drawCard();
     }
 
