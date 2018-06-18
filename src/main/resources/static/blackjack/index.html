@@ -553,15 +553,17 @@
         }).done(function(data) {
             drawGameRoom(data);
         });
-        moreless = 0;
     })
 
     $('#stand').click(function() {
+        var currentBet = parseInt($('#bet').html());
+        var money = parseInt($('#money').html());
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/api/black-jack/rooms/' + gameRoomId + '/stand',
             headers: {
-                'name':user.name
+                'name':user.name,
+                'balance':money
             },
         }).done(function(data) {
             drawGameRoom(data);
@@ -605,8 +607,18 @@
         $('#myMoney').html(money + bet);
     });
 
+    function setBalance(name){
+        $.ajax({
+        type: 'POST',
+        url: 'http://localhost:8080/api/black-jack/rooms/' + gameRoomId + '/setBalance',
+        headers: {
+            'name':user.name
+        },
+    })
+}
+
+
     function drawGameRoom(gameRoom) {
-        console.log(gameRoom);
         if (gameRoom.finished) {
             $('#deal').show();
             $('#more').show();
@@ -614,6 +626,7 @@
             $('#hit').hide();
             $('#stand').hide();
             $('#doubleDown').hide();
+            setBalance(user.name);
         } else {
             $('#deal').hide();
             $('#more').hide();
@@ -621,6 +634,7 @@
             $('#hit').show();
             $('#stand').show();
             $('#doubleDown').show();
+            setBalance(user.name);
         }
 
         $('.dealer-cards').html("");

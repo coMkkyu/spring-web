@@ -2,11 +2,11 @@ package kr.ac.cnu.web.service;
 
 import kr.ac.cnu.web.games.blackjack.Deck;
 import kr.ac.cnu.web.games.blackjack.GameRoom;
+import kr.ac.cnu.web.games.blackjack.Player;
 import kr.ac.cnu.web.model.User;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by rokim on 2018. 5. 26..
@@ -74,6 +74,11 @@ public class BlackjackService {
         gameRoom.playDealer();
 
         return gameRoom;
+    }
+
+    public long myBalance(String roomId, String name){
+        Player player = getGameRoom(roomId).getPlayerList().get(name);
+        return player.getBalance()+player.getCurrentBet();
     }
 
 }

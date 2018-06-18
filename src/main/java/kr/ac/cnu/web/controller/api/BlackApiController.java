@@ -21,6 +21,8 @@ import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.util.Optional;
 
+import static java.lang.Integer.parseInt;
+
 /**
  * Created by rokim on 2018. 5. 21..
  */
@@ -56,7 +58,6 @@ public class BlackApiController {
 
 
 
-
     @PostMapping("/rooms")
     public GameRoom createRoom(@RequestHeader("name") String name) {
         User user = this.getUserFromSession(name);
@@ -74,15 +75,27 @@ public class BlackApiController {
     @PostMapping("/rooms/{roomId}/hit")
     public GameRoom hit(@RequestHeader("name") String name, @PathVariable String roomId) {
         User user = this.getUserFromSession(name);
-
         return blackjackService.hit(roomId, user);
     }
 
     @PostMapping("/rooms/{roomId}/stand")
-    public GameRoom stand(@RequestHeader("name") String name, @PathVariable String roomId) {
+    public GameRoom stand(@RequestHeader("name") String name, @RequestHeader("balance") String mybalance, @PathVariable String roomId) {
         User user = this.getUserFromSession(name);
 
+        long balance = Integer.parseInt(mybalance);
+        user.setAccount(balance);
+        userRepository.save(user);
+
         return blackjackService.stand(roomId, user);
+    }
+
+    @PostMapping("/rooms/{roomId}/setBalance")
+    public void setBalance(@RequestHeader("name") String name, @PathVariable String roomId) {
+        User user = this.getUserFromSession(name);
+        long balance = blackjackService.myBalance(roomId, name);
+        user.setAccount(balance);
+        userRepository.save(user);
+
     }
 
     @PostMapping("/rooms/{roomId}/doubleDown")
