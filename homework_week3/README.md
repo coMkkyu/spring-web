@@ -1,10 +1,10 @@
 ﻿# Porject
  
  ## 7조
- 1.한선규
- 2.정유진
- 3.정성철
- 4.최유정
+ 1. 한선규
+ 2. 정유진
+ 3. 정성철
+ 4. 최유정
 
 ## 방법
 1. 각 조별로 Group 을 구성해서 Robinkim0182/spring-web/homework_week3/README.md 에 업데이트 (지금! 바로!)
