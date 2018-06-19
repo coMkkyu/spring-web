@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
-import java.awt.*;
+import java.util.Comparator;
 import java.util.Optional;
-
+import java.util.List;
 import static java.lang.Integer.parseInt;
 
 /**
@@ -56,13 +56,28 @@ public class BlackApiController {
     }
 
 
-
-
     @PostMapping("/rooms")
     public GameRoom createRoom(@RequestHeader("name") String name) {
         User user = this.getUserFromSession(name);
 
         return blackjackService.createGameRoom(user);
+    }
+
+    @PostMapping("/ranking")
+    public List<User> ranking() {
+        List<User> rankList = userRepository.findAll();
+        rankList.sort(new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                if(o1.getAccount()<o2.getAccount())
+                    return 1;
+                else if (o1.getAccount() == o2.getAccount())
+                    return 0;
+                else
+                    return -1;
+            }
+        });
+        return rankList;
     }
 
     @PostMapping(value = "/rooms/{roomId}/bet", consumes = MediaType.APPLICATION_JSON_VALUE)
