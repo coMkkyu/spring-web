@@ -20,6 +20,7 @@
 
         }
 
+
         h1{
             font-size:35px;
             text-align: center;
@@ -80,6 +81,7 @@
 
         #play-ground{
             background-color: #028535;
+            padding-bottom: 10px;
         }
 
         .dealer-cards .card, .player-cards .card {
@@ -99,6 +101,9 @@
             /*width: 164px;*/
             margin: 0 auto;
             display: inline-block;
+            font-size: 17px;
+            color: #FFFF36;
+            font-weight: bold;
         }
 
         .dealer-total, .player-total{
@@ -426,19 +431,27 @@
         }
 
 
-    </style>
+
+
+</style>
 </head>
 <body>
 <div class="page" id="login">
     <div id="login_text">
-        <input type="text" id="input_login_name" />
-        <div class="buttons"><div class="btn" id="login_button">Login</div></div>
-        <div class="buttons"><div class="btn" id="signup_button">Signup</div></div>
+        <input type="text" id="input_login_name"/>
+        <div class="buttons">
+            <div class="btn" id="login_button">Login</div>
+        </div>
+        <div class="buttons">
+            <div class="btn" id="signup_button">Signup</div>
+        </div>
     </div>
 </div>
 <div class="page" id="lobby" style="display: none">
     <div>
-        <div class="buttons"><div class="btn" id="create_room_button">Create</div></div>
+        <div class="buttons">
+            <div class="btn" id="create_room_button">Create</div>
+        </div>
     </div>
 </div>
 
@@ -453,8 +466,14 @@
         <div class="clear"></div>
         <div class="player-cards"></div>
     </div>
-    <div class="buttons"><div class="btn" id="hit">Hit</div><div class="btn" id="stand">Stand</div><div id="doubleDown" class="btn">DoubleDown</div></div>
-    <div class="buttons"><div class="btn" id="deal">Deal</div></div>
+    <div class="buttons">
+        <div class="btn" id="hit">Hit</div>
+        <div class="btn" id="stand">Stand</div>
+        <div id="doubleDown" class="btn">DoubleDown</div>
+    </div>
+    <div class="buttons">
+        <div class="btn" id="deal">Deal</div>
+    </div>
     <div class="betting-area">
         <b>Your Bet</b><br>
         <div id="bet" class="bet money">0</div>
@@ -547,15 +566,20 @@
     })
 
     $('#hit').click(function() {
+        var currentBet = parseInt($('#bet').html());
+        var money = parseInt($('#money').html());
+        console.log(돈);
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/api/black-jack/rooms/' + gameRoomId + '/hit',
             headers: {
-                'name':user.name
+                'name':user.name,
+                'balance':money
             },
         }).done(function(data) {
             drawGameRoom(data);
         });
+        console.log(돈);
     })
 
     $('#stand').click(function() {
@@ -565,8 +589,7 @@
             type: 'POST',
             url: 'http://localhost:8080/api/black-jack/rooms/' + gameRoomId + '/stand',
             headers: {
-                'name':user.name,
-                'balance':money
+                'name':user.name
             },
         }).done(function(data) {
             drawGameRoom(data);
@@ -574,8 +597,6 @@
     })
 
     $('#doubleDown').click(function() {
-
-    alert("bet 금액이 2배로 올라갑니다");
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/api/black-jack/rooms/' + gameRoomId + '/doubleDown',
@@ -585,7 +606,6 @@
         }).done(function(data) {
             drawGameRoom(data);
         });
-
     })
 
     $('#more').click(function(){
@@ -613,7 +633,7 @@
         $('#myMoney').html(money + bet);
     });
 
-    function setBalance(name){
+function setBalance(name){
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/api/black-jack/rooms/' + gameRoomId + '/setBalance',
@@ -631,8 +651,7 @@
                 }
             });
         });
-    }
-
+}
 
     function drawGameRoom(gameRoom) {
         if (gameRoom.finished) {
@@ -725,6 +744,8 @@
 
         return "<div class='card " + className + "' data-value='" + rank +"'></div>";
     }
+
+
 </script>
 
 </html>
