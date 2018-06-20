@@ -94,13 +94,8 @@ public class BlackApiController {
     }
 
     @PostMapping("/rooms/{roomId}/stand")
-    public GameRoom stand(@RequestHeader("name") String name, @RequestHeader("balance") String mybalance, @PathVariable String roomId) {
+    public GameRoom stand(@RequestHeader("name") String name, @PathVariable String roomId) {
         User user = this.getUserFromSession(name);
-
-        long balance = Integer.parseInt(mybalance);
-        user.setAccount(balance);
-        userRepository.save(user);
-
         return blackjackService.stand(roomId, user);
     }
 
